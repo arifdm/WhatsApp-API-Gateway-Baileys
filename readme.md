@@ -13,7 +13,7 @@ This project uses [Baileys](https://github.com/WhiskeySockets/Baileys) to connec
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/aviantotiyo/WhatsApp-API-Gateway-Baileys.git
    cd <repository-directory>
    ```
 
