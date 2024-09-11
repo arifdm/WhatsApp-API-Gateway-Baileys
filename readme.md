@@ -87,7 +87,3 @@ Once the server is running and you have scanned the QR code, you can send messag
 - **Errors Sending Messages:** Check the logs for detailed error messages and ensure the number format is correct (`621234567890`) Please follow your country code number.
 
 For further assistance, refer to the [Baileys documentation](https://github.com/WhiskeySockets/Baileys) or check the issues in the GitHub repository.
-
-```
-
-```
