@@ -4,9 +4,9 @@ const {
   makeWASocket,
   useMultiFileAuthState,
   DisconnectReason,
+  fetchLatestBaileysVersion,
 } = require("@whiskeysockets/baileys");
 const { Boom } = require("@hapi/boom");
-
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
@@ -25,57 +25,98 @@ const io = new Server(httpServer, {
 const PORT = process.env.PORT || 5000;
 const SESSION_PATH = path.join(__dirname, "sessions");
 
-// Middleware
 app.use(express.json());
 
-// Session Management
 const sessions = {};
 
 async function initWASession(sessionId, socket) {
   const sessionFolder = path.join(SESSION_PATH, sessionId);
 
-  // Clean up existing session folder if any
-  if (fs.existsSync(sessionFolder)) {
-    console.log(
-      `[${sessionId}] Detected existing session folder, cleaning up...`
-    );
-    fs.rmSync(sessionFolder, { recursive: true, force: true });
-  }
-
   try {
-    // Ensure session directory exists
     if (!fs.existsSync(sessionFolder)) {
       fs.mkdirSync(sessionFolder, { recursive: true });
     }
 
     const { state, saveCreds } = await useMultiFileAuthState(sessionFolder);
 
-    const customLogger = {
-      level: "warn", // Reduce verbosity
-      trace: () => {}, // Remove trace logs
-      debug: () => {}, // Remove debug logs
-      info: (...args) => console.info(...args),
-      warn: (...args) => console.warn(...args),
-      error: (...args) => console.error(...args),
-      fatal: (...args) => console.error("FATAL:", ...args),
-      child: () => customLogger,
-    };
+    const { version, isLatest } = await fetchLatestBaileysVersion();
 
     const waSocket = makeWASocket({
+      version,
       auth: state,
-      logger: customLogger,
       printQRInTerminal: true,
-      browser: ["MyApp", "Chrome", "1.0.0"], // Browser information
-      connectTimeoutMs: 60000, // Timeout for connecting
+      browser: ["Baileys", "Chrome", "121.0.0.0"],
+      connectTimeoutMs: 60000,
+      shouldIgnoreJid: () => false,
     });
 
-    // Store session
     sessions[sessionId] = { waSocket, status: "connecting" };
 
-    // Event Handlers
     waSocket.ev.on("creds.update", saveCreds);
-    waSocket.ev.on("connection.update", (update) => {
-      handleConnectionUpdate(sessionId, socket, update);
+
+    waSocket.ev.on("connection.update", async (update) => {
+      const { connection, lastDisconnect, qr } = update;
+
+      if (qr) {
+        console.log(`[${sessionId}] QR Code received`);
+        socket.emit("qr_generated", { sessionId, qr });
+      }
+
+      if (connection) {
+        console.log(`[${sessionId}] Connection update:`, connection);
+        socket.emit("status_change", { sessionId, status: connection });
+      }
+
+      if (connection === "open") {
+        sessions[sessionId].status = "connected";
+        console.log(`[${sessionId}] Connected to WhatsApp`);
+
+        try {
+          const me = waSocket?.user;
+          console.log(`[${sessionId}] Connected as:`, me?.id);
+        } catch (err) {
+          console.error(`[${sessionId}] Failed to get user info:`, err);
+        }
+
+        socket.emit("status_change", { sessionId, status: "connected" });
+      }
+
+      if (connection === "close") {
+        const statusCode =
+          lastDisconnect?.error instanceof Boom
+            ? lastDisconnect.error.output.statusCode
+            : "unknown";
+
+        const reasonText =
+          DisconnectReason[statusCode] ||
+          lastDisconnect?.error?.message ||
+          "Unknown";
+
+        console.error(`[${sessionId}] Disconnected: ${reasonText}`);
+        sessions[sessionId].status = "disconnected";
+
+        if (
+          [
+            DisconnectReason.connectionClosed,
+            DisconnectReason.connectionLost,
+            DisconnectReason.restartRequired,
+            DisconnectReason.timedOut,
+          ].includes(statusCode)
+        ) {
+          console.log(`[${sessionId}] Reconnecting in 5 seconds...`);
+          setTimeout(() => initWASession(sessionId, socket), 5000);
+        } else if (statusCode === DisconnectReason.loggedOut) {
+          console.log(`[${sessionId}] Session logged out, removing data`);
+          delete sessions[sessionId];
+          fs.rmSync(sessionFolder, { recursive: true, force: true });
+          socket.emit("status_change", { sessionId, status: "logged_out" });
+        }
+      }
+    });
+
+    // Optional: Debug incoming message
+    waSocket.ev.on("messages.upsert", (m) => {
+      console.log("📩 Message received:", JSON.stringify(m, null, 2));
     });
 
     return waSocket;
@@ -86,83 +127,24 @@ async function initWASession(sessionId, socket) {
   }
 }
 
-function handleConnectionUpdate(sessionId, socket, update) {
-  const { connection, lastDisconnect, qr } = update;
-  const session = sessions[sessionId];
-
-  if (qr) {
-    console.log(`[${sessionId}] QR Code received`);
-    socket.emit("qr_generated", { sessionId, qr });
-  }
-
-  if (connection) {
-    console.log(`[${sessionId}] Connection update:`, connection);
-    socket.emit("status_change", { sessionId, status: connection });
-  }
-
-  if (connection === "open") {
-    session.status = "connected";
-    console.log(`[${sessionId}] Successfully connected to WhatsApp.`);
-    socket.emit("status_change", { sessionId, status: "connected" });
-  }
-
-  if (connection === "close") {
-    session.status = "disconnected";
-
-    const reason =
-      lastDisconnect?.error instanceof Boom
-        ? lastDisconnect.error.output.statusCode
-        : lastDisconnect?.error?.message || "Unknown";
-
-    const reasonText = DisconnectReason[reason] || reason;
-    console.error(`[${sessionId}] Disconnected:`, reasonText);
-
-    // Reconnect logic
-    if (
-      [
-        DisconnectReason.connectionClosed,
-        DisconnectReason.timedOut,
-        DisconnectReason.restartRequired,
-        DisconnectReason.connectionLost,
-      ].includes(reason)
-    ) {
-      console.log(`[${sessionId}] Attempting to reconnect in 5 seconds...`);
-      setTimeout(() => initWASession(sessionId, socket), 5000);
-    }
-
-    if (reason === DisconnectReason.loggedOut) {
-      console.log(`[${sessionId}] Session logged out, cleaning up`);
-      delete sessions[sessionId];
-      const sessionFolder = path.join(SESSION_PATH, sessionId);
-      fs.rmSync(sessionFolder, { recursive: true, force: true });
-      socket.emit("status_change", { sessionId, status: "logged_out" });
-    }
-  }
-}
-
-// Socket.IO Events
 io.on("connection", (socket) => {
   console.log("Client connected:", socket.id);
 
-  // Get active sessions
-  socket.on("get_active_sessions", () => {
-    const activeSessions = Object.entries(sessions).map(
-      ([sessionId, session]) => ({
-        sessionId,
-        status: session.status,
-      })
-    );
-    socket.emit("active_sessions", activeSessions);
-  });
+  const activeSessions = Object.entries(sessions).map(([id, client]) => ({
+    id,
+    status: client?.status || "unknown",
+  }));
+  socket.emit("sessions", activeSessions);
 
-  // Start a new session
   socket.on("start_session", async (sessionId) => {
     try {
       if (sessions[sessionId]) {
+        console.log(`[${sessionId}] Session already exists`);
         socket.emit("session_exists", { sessionId });
         return;
       }
 
+      console.log(`[${sessionId}] Starting new session`);
       await initWASession(sessionId, socket);
       socket.emit("session_ready", { sessionId });
     } catch (error) {
@@ -170,34 +152,33 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Disconnect a session
-  socket.on("disconnect_session", (sessionId) => {
-    if (sessions[sessionId]) {
-      sessions[sessionId].waSocket.ev.emit("connection.update", {
-        connection: "close",
-      });
-      delete sessions[sessionId];
-      const sessionFolder = path.join(SESSION_PATH, sessionId);
-      fs.rmSync(sessionFolder, { recursive: true, force: true });
-      console.log(`[${sessionId}] Session disconnected`);
-      socket.emit("status_change", { sessionId, status: "disconnected" });
-    }
+  socket.on("get-sessions", () => {
+    const activeSessions = Object.entries(sessions).map(([id, client]) => ({
+      id,
+      status: client?.status || "unknown",
+    }));
+    socket.emit("sessions", activeSessions);
   });
 
-  socket.on("disconnect", () => {
-    console.log("Client disconnected:", socket.id);
+  // Mulai sesi baru
+  socket.on("start", async (sessionId) => {
+    await initWASession(io, sessionId);
+  });
+
+  // Putuskan sesi
+  socket.on("disconnect-session", async (sessionId) => {
+    if (sessions[sessionId]) {
+      await sessions[sessionId].logout();
+      delete sessions[sessionId];
+      io.emit("status", {
+        sessionId,
+        status: "disconnected",
+        reason: "Session diputus oleh pengguna",
+      });
+    }
   });
 });
 
 httpServer.listen(PORT, () => {
-  console.log(`WhatsApp Server running on port ${PORT}`);
-});
-
-// Global error handling
-process.on("uncaughtException", (err) => {
-  console.error("Uncaught Exception:", err);
-});
-
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("Unhandled Rejection:", reason);
+  console.log(`✅ WhatsApp Server running on port ${PORT}`);
 });

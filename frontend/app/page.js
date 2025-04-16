@@ -1,8 +1,8 @@
-"use client"; // Wajib karena menggunakan hooks dan socket
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
-import { QRCode } from "react-qr-code";
+import QRCode from "react-qr-code";
 
 export default function Home() {
   const [sessionId, setSessionId] = useState("");
@@ -11,26 +11,29 @@ export default function Home() {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    // Inisialisasi socket dengan port 5000
-    socketRef.current = io("http://localhost:5000", {
+    const socket = io("http://localhost:5000", {
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
     });
 
-    // Setup event listeners
-    const socket = socketRef.current;
+    socketRef.current = socket;
 
     socket.on("connect", () => {
-      console.log("Connected to server");
+      console.log("Terhubung ke server WhatsApp");
     });
 
     socket.on("disconnect", () => {
-      console.log("Disconnected from server");
+      console.log("Terputus dari server");
+    });
+
+    socket.on("active_sessions", ({ sessions }) => {
+      console.log("Daftar sesi aktif:", sessions);
+      setSessions(sessions);
     });
 
     socket.on("qr_generated", ({ sessionId, qr }) => {
-      console.log("QR Received for session:", sessionId);
+      console.log("QR diterima untuk sesi:", sessionId);
       setQrData({ sessionId, qr });
       setSessions((prev) => ({
         ...prev,
@@ -43,26 +46,8 @@ export default function Home() {
       }));
     });
 
-    socket.on("status_change", ({ sessionId, status, reason }) => {
-      console.log(`Status update for ${sessionId}:`, status, reason);
-      setSessions((prev) => ({
-        ...prev,
-        [sessionId]: {
-          ...prev[sessionId],
-          status,
-          reason,
-          lastUpdate: new Date().toISOString(),
-        },
-      }));
-
-      // Clear QR if connected
-      if (status === "connected") {
-        setQrData((prev) => (prev?.sessionId === sessionId ? null : prev));
-      }
-    });
-
     socket.on("session_ready", ({ sessionId }) => {
-      console.log("Session ready:", sessionId);
+      console.log("Sesi siap:", sessionId);
       setSessions((prev) => ({
         ...prev,
         [sessionId]: {
@@ -73,11 +58,29 @@ export default function Home() {
       }));
     });
 
+    socket.on("status_change", ({ sessionId, status, reason }) => {
+      console.log(`Status ${sessionId} berubah: ${status} (${reason || ""})`);
+      setSessions((prev) => ({
+        ...prev,
+        [sessionId]: {
+          ...prev[sessionId],
+          status,
+          reason,
+          lastUpdate: new Date().toISOString(),
+        },
+      }));
+
+      if (status === "connected") {
+        setQrData((prev) => (prev?.sessionId === sessionId ? null : prev));
+      }
+    });
+
     socket.on("session_exists", ({ sessionId }) => {
-      alert(`Session ${sessionId} sudah ada!`);
+      alert(`Session "${sessionId}" sudah ada!`);
     });
 
     socket.on("session_error", ({ sessionId, error }) => {
+      console.error("Kesalahan sesi:", sessionId, error);
       setSessions((prev) => ({
         ...prev,
         [sessionId]: {
@@ -90,7 +93,7 @@ export default function Home() {
     });
 
     socket.on("connection_timeout", ({ sessionId }) => {
-      alert(`Koneksi untuk session ${sessionId} timeout!`);
+      alert(`Koneksi sesi "${sessionId}" timeout!`);
       setSessions((prev) => ({
         ...prev,
         [sessionId]: {
@@ -102,23 +105,25 @@ export default function Home() {
     });
 
     return () => {
-      if (socketRef.current) socketRef.current.disconnect();
+      socket.disconnect();
     };
   }, []);
 
   const startSession = () => {
     if (!sessionId.trim()) return;
 
-    // Initialize session in state
+    const trimmedId = sessionId.trim();
+
     setSessions((prev) => ({
       ...prev,
-      [sessionId]: {
+      [trimmedId]: {
         status: "starting",
         lastUpdate: new Date().toISOString(),
       },
     }));
 
-    socketRef.current.emit("start_session", sessionId.trim());
+    socketRef.current.emit("start_session", trimmedId);
+    setSessionId(""); // reset input
   };
 
   const getStatusColor = (status) => {
@@ -128,6 +133,7 @@ export default function Home() {
       case "connecting":
       case "starting":
       case "waiting_qr_scan":
+      case "initializing":
         return "bg-yellow-50 border-yellow-200";
       case "disconnected":
       case "error":
@@ -159,7 +165,7 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Current QR Display */}
+      {/* QR untuk sesi baru */}
       {qrData && (
         <div className="mb-8 p-4 bg-white rounded-lg shadow border border-blue-200">
           <h2 className="text-lg font-semibold mb-2">
@@ -174,7 +180,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Sessions List */}
+      {/* List sesi aktif */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Object.entries(sessions).map(([id, session]) => (
           <div
@@ -215,7 +221,9 @@ export default function Home() {
             )}
 
             <p className="text-xs text-gray-500 mt-2">
-              Terakhir update: {new Date(session.lastUpdate).toLocaleString()}
+              Terakhir update:{" "}
+              {session.lastUpdate &&
+                new Date(session.lastUpdate).toLocaleString()}
             </p>
           </div>
         ))}

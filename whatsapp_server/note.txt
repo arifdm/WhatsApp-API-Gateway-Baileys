@@ -1,1 +1,6 @@
-"@whiskeysockets/baileys": "^6.4.0",
+Menjalankan PM2:
+pm2 start whatsapp-server.js --name whatsapp-bot
+
+pm2 startup
+pm2 logs
+pm2 monit
