@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WhatsApp Bot</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .session {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+      }
+      .connected {
+        background-color: #d4edda;
+      }
+      .disconnected {
+        background-color: #f8d7da;
+      }
+      .qrcode {
+        margin: 15px 0;
+        text-align: center;
+      }
+      #qrImage {
+        max-width: 200px;
+      }
+      button {
+        padding: 8px 15px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .disconnect-button {
+        background-color: #dc3545;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>WhatsApp Bot Status</h1>
+
+    <div>
+      <input type="text" id="sessionId" placeholder="Masukkan Session ID" />
+      <button onclick="startSession()">Mulai Session</button>
+    </div>
+
+    <div id="sessions"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+      const socket = io();
+      const sessionsContainer = document.getElementById("sessions");
+
+      // Load active sessions on page load
+      window.onload = () => {
+        socket.emit("get_active_sessions");
+      };
+
+      socket.on("connect", () => {
+        console.log("Terhubung ke server");
+      });
+
+      // Handle active sessions
+      socket.on("active_sessions", (sessions) => {
+        sessionsContainer.innerHTML = ""; // Clear container
+        sessions.forEach((session) => {
+          renderSession(session.sessionId, session.status);
+        });
+      });
+
+      // Handle QR code generation
+      socket.on("qr_generated", (data) => {
+        renderSession(data.sessionId, "qr", data.qr);
+      });
+
+      // Handle status change
+      socket.on("status_change", (data) => {
+        renderSession(data.sessionId, data.status, null, data.reason);
+      });
+
+      // Handle session errors
+      socket.on("session_error", (data) => {
+        alert(`Error pada session ${data.sessionId}: ${data.error}`);
+      });
+
+      // Render session card
+      function renderSession(sessionId, status, qr = null, reason = null) {
+        let sessionDiv = document.getElementById(`session-${sessionId}`);
+        if (!sessionDiv) {
+          sessionDiv = document.createElement("div");
+          sessionDiv.id = `session-${sessionId}`;
+          sessionDiv.className = "session";
+          sessionsContainer.appendChild(sessionDiv);
+        }
+
+        let statusClass = "";
+        if (status === "connected") statusClass = "connected";
+        if (status === "disconnected") statusClass = "disconnected";
+
+        sessionDiv.className = `session ${statusClass}`;
+        sessionDiv.innerHTML = `
+          <h3>Session: ${sessionId}</h3>
+          <p>Status: <strong>${status}</strong></p>
+          ${reason ? `<p>Alasan: ${reason}</p>` : ""}
+          ${
+            qr
+              ? `
+              <div class="qrcode">
+                <p>Scan QR Code berikut:</p>
+                <canvas id="qr-${sessionId}"></canvas>
+              </div>
+            `
+              : ""
+          }
+          ${
+            status === "connected"
+              ? `<button class="disconnect-button" onclick="disconnectSession('${sessionId}')">Disconnect</button>`
+              : ""
+          }
+        `;
+
+        // Generate QR code if available
+        if (qr) {
+          const qrCanvas = document.getElementById(`qr-${sessionId}`);
+          QRCode.toCanvas(qrCanvas, qr, (error) => {
+            if (error) console.error("Error membuat QR Code:", error);
+          });
+        }
+      }
+
+      // Start a new session
+      function startSession() {
+        const sessionId = document.getElementById("sessionId").value.trim();
+        if (!sessionId) {
+          alert("Masukkan Session ID terlebih dahulu");
+          return;
+        }
+        socket.emit("start_session", sessionId);
+      }
+
+      // Disconnect a session
+      function disconnectSession(sessionId) {
+        if (
+          confirm(`Apakah Anda yakin ingin memutuskan session ${sessionId}?`)
+        ) {
+          socket.emit("disconnect_session", sessionId);
+        }
+      }
+    </script>
+  </body>
+</html>
