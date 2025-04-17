@@ -38,7 +38,6 @@ async function initWASession(sessionId, socket) {
     }
 
     const { state, saveCreds } = await useMultiFileAuthState(sessionFolder);
-
     const { version, isLatest } = await fetchLatestBaileysVersion();
 
     const waSocket = makeWASocket({
@@ -51,7 +50,6 @@ async function initWASession(sessionId, socket) {
     });
 
     sessions[sessionId] = { waSocket, status: "connecting" };
-
     waSocket.ev.on("creds.update", saveCreds);
 
     waSocket.ev.on("connection.update", async (update) => {
@@ -129,12 +127,6 @@ async function initWASession(sessionId, socket) {
 
 io.on("connection", (socket) => {
   console.log("Client connected:", socket.id);
-
-  const activeSessions = Object.entries(sessions).map(([id, client]) => ({
-    id,
-    status: client?.status || "unknown",
-  }));
-  socket.emit("sessions", activeSessions);
 
   socket.on("start_session", async (sessionId) => {
     try {
