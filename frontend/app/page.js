@@ -126,6 +126,20 @@ export default function Home() {
     setSessionId(""); // reset input
   };
 
+  const onDisconnect = (sessionId) => {
+    socketRef.current.emit("disconnect_session", sessionId);
+    setSessions((prev) => ({
+      ...prev,
+      [sessionId]: {
+        ...prev[sessionId],
+        status: "disconnected",
+        lastUpdate: new Date().toISOString(),
+      },
+    }));
+    setQrData((prev) => (prev?.sessionId === sessionId ? null : prev));
+    setSessionId("");
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case "connected":
@@ -143,6 +157,9 @@ export default function Home() {
         return "bg-gray-50 border-gray-200";
     }
   };
+
+  console.log("SESSIONS:", sessions); // [!++]
+  console.log("SOCKET:", socketRef.current); // [!++]
 
   return (
     <main className="p-8 max-w-6xl mx-auto">
@@ -169,7 +186,7 @@ export default function Home() {
       {qrData && (
         <div className="mb-8 p-4 bg-white rounded-lg shadow border border-blue-200">
           <h2 className="text-lg font-semibold mb-2">
-            QR Code untuk Session: {qrData.sessionId}
+            QR Code {qrData.sessionId}
           </h2>
           <div className="flex flex-col items-center">
             <QRCode value={qrData.qr} size={256} level="H" className="mb-2" />
@@ -190,22 +207,33 @@ export default function Home() {
             )}`}
           >
             <h3 className="font-bold text-lg">{id}</h3>
-            <div className="my-2">
-              <p>
-                Status:{" "}
-                <span className="capitalize font-medium">
-                  {session.status?.replace(/_/g, " ")}
-                </span>
-              </p>
-              {session.reason && (
-                <p className="text-sm text-gray-600 mt-1">
-                  Alasan: {session.reason}
+            <div className="flex justify-between items-center">
+              <div className="my-2">
+                <p>
+                  Status:{" "}
+                  <span className="capitalize font-medium">
+                    {session.status?.replace(/_/g, " ")}
+                  </span>
                 </p>
-              )}
-              {session.error && (
-                <p className="text-sm text-red-600 mt-1">
-                  Error: {session.error}
-                </p>
+                {session.reason && (
+                  <p className="text-sm text-gray-600 mt-1">
+                    Alasan: {session.reason}
+                  </p>
+                )}
+                {session.error && (
+                  <p className="text-sm text-red-600 mt-1">
+                    Error: {session.error}
+                  </p>
+                )}
+              </div>
+              {session.status === "connected" && (
+                <div
+                  onClick={() => onDisconnect(id)}
+                  className="cursor-pointer bg-red-600 text-white px-2.5 py-1 rounded hover:bg-red-500 text-sm"
+                  title="Putuskan sesi ini"
+                >
+                  x
+                </div>
               )}
             </div>
 
