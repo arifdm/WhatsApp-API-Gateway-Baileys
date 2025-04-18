@@ -118,8 +118,8 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto p-4 md:p-8">
+    <main className="min-h-screen container mx-auto lg:w-7xl">
+      <div className="p-4 md:p-8">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar */}
           <div className="w-full md:w-1/3">
@@ -144,14 +144,14 @@ export default function Home() {
                   </h2>
                   <div className="flex items-center gap-2">
                     <span
-                      className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor()}`}
+                      className={`px-3 py-1 rounded-full text-sm ${getStatusColor()}`}
                     >
                       {getStatusLabel()}
                     </span>
                     {status === "connected" && (
                       <button
                         onClick={handleDisconnect}
-                        className="text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
+                        className="text-sm bg-red-300 hover:bg-red-400 text-white px-3 py-1 rounded-full transition duration-200"
                       >
                         Putuskan
                       </button>
@@ -164,7 +164,7 @@ export default function Home() {
                     <h2 className="text-sm font-medium text-gray-500 mb-1">
                       Terhubung Sejak
                     </h2>
-                    <p className="text-gray-800 text-md">
+                    <p className="text-gray-800 text-sm">
                       {lastConnectionTime.toLocaleString()}
                     </p>
                   </div>
