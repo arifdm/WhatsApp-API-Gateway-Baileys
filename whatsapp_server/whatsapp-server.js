@@ -12,6 +12,7 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const path = require("path");
 const fs = require("fs");
+const cors = require("cors");
 
 const app = express();
 const httpServer = createServer(app);
@@ -19,13 +20,21 @@ const io = new Server(httpServer, {
   cors: {
     origin: process.env.FRONTEND_URL || "http://localhost:3000",
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 const PORT = process.env.PORT || 5000;
 const SESSION_PATH = path.join(__dirname, "sessions");
 
-// Ensure sessions directory exists
 if (!fs.existsSync(SESSION_PATH)) {
   fs.mkdirSync(SESSION_PATH, { recursive: true });
 }
@@ -44,8 +53,6 @@ async function cleanupSession(sessionId) {
   }
 
   delete sessions[sessionId];
-
-  // Cleanup session folder if exists
   const sessionFolder = path.join(SESSION_PATH, sessionId);
   if (fs.existsSync(sessionFolder)) {
     fs.rmSync(sessionFolder, { recursive: true, force: true });
@@ -84,12 +91,10 @@ async function initWASession(sessionId, socket) {
     waSocket.ev.on("connection.update", (update) => {
       const { connection, lastDisconnect, qr } = update;
 
-      // Tambahkan logging untuk debug
       console.log(`[${sessionId}] Connection update:`, update);
 
       if (qr) {
         console.log(`[${sessionId}] QR Code generated`);
-        // Pastikan mengirim data lengkap
         socket.emit("qr_generated", { sessionId, qr, status: "awaiting_qr" });
       }
 
@@ -125,10 +130,23 @@ async function initWASession(sessionId, socket) {
     });
 
     waSocket.ev.on("messages.upsert", (m) => {
-      console.log(
-        `[${sessionId}] New message:`,
-        m.messages[0]?.message?.conversation
-      );
+      const msg = m.messages[0];
+      const sender = msg.key.remoteJid;
+      const text =
+        msg.message?.conversation ||
+        msg.message?.extendedTextMessage?.text ||
+        "";
+
+      console.log(`[${sessionId}] Message from ${sender}: ${text}`);
+
+      // Emit ke frontend jika ingin real-time update
+      socket.emit("message_received", {
+        sessionId,
+        from: sender,
+        message: text,
+        messageId: msg.key.id,
+        isGroup: msg.key.remoteJid.endsWith("@g.us"),
+      });
     });
 
     return waSocket;
@@ -150,22 +168,8 @@ io.on("connection", (socket) => {
 
   socket.emit("sessions", activeSessions);
 
-  // socket.on("start_session", async (sessionId) => {
-  //   if (sessions[sessionId]) {
-  //     socket.emit("session_exists", { sessionId });
-  //     return;
-  //   }
-
-  //   try {
-  //     await initWASession(sessionId, socket);
-  //     socket.emit("session_ready", { sessionId });
-  //   } catch (error) {
-  //     socket.emit("session_error", { sessionId, error: error.message });
-  //   }
-  // });
-
   socket.on("start_session", async (sessionId) => {
-    console.log(`Received start_session for: ${sessionId}`); // [!++]
+    console.log(`Received start_session for: ${sessionId}`);
 
     try {
       if (sessions[sessionId]) {
@@ -177,7 +181,7 @@ io.on("connection", (socket) => {
       await initWASession(sessionId, socket);
       socket.emit("session_ready", { sessionId });
     } catch (error) {
-      console.error(`[${sessionId}] Init failed:`, error); // [!++]
+      console.error(`[${sessionId}] Init failed:`, error);
       socket.emit("session_error", {
         sessionId,
         error: error.message,
@@ -195,7 +199,6 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("Client disconnected:", socket.id);
-    // Cleanup sessions owned by this socket
     Object.entries(sessions).forEach(([sessionId, session]) => {
       if (session.socketId === socket.id) {
         cleanupSession(sessionId);
@@ -204,19 +207,29 @@ io.on("connection", (socket) => {
   });
 });
 
-app.post("/send-message", async (req, res) => {
-  const { number, message } = req.body;
+// ========================= API Routes =========================
 
-  if (!number || !message) {
+app.post("/send-message", async (req, res) => {
+  const { sessionId, number, message } = req.body;
+
+  if (!sessionId || !number || !message) {
     return res.status(400).json({
       success: false,
-      message: "Number and message are required",
+      message: "sessionId, number, and message are required",
     });
   }
 
   try {
-    const id = number + "@s.whatsapp.net"; // WhatsApp ID
-    await sock.sendMessage(id, { text: message });
+    const session = sessions[sessionId];
+    if (!session || !session.waSocket) {
+      return res.status(404).json({
+        success: false,
+        message: "Session not found or not connected",
+      });
+    }
+
+    const id = number + "@s.whatsapp.net";
+    await session.waSocket.sendMessage(id, { text: message });
 
     res.json({
       success: true,
@@ -227,6 +240,52 @@ app.post("/send-message", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to send message",
+    });
+  }
+});
+
+app.post("/reply-message", async (req, res) => {
+  const { sessionId, number, message, messageId } = req.body;
+
+  if (!sessionId || !number || !message || !messageId) {
+    return res.status(400).json({
+      success: false,
+      message: "sessionId, number, message, and messageId are required",
+    });
+  }
+
+  try {
+    const session = sessions[sessionId];
+    if (!session || !session.waSocket) {
+      return res.status(404).json({
+        success: false,
+        message: "Session not found or not connected",
+      });
+    }
+
+    const id = number + "@s.whatsapp.net";
+
+    await session.waSocket.sendMessage(id, {
+      text: message,
+      quoted: {
+        key: {
+          remoteJid: id,
+          id: messageId,
+          fromMe: false,
+        },
+        message: { conversation: "..." }, // placeholder
+      },
+    });
+
+    res.json({
+      success: true,
+      message: "Reply sent successfully",
+    });
+  } catch (error) {
+    console.error("Error replying message: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to send reply",
     });
   }
 });
