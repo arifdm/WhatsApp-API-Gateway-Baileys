@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
+import QRCode from "react-qr-code";
 
 const socket = io(
   process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:5000"
@@ -163,7 +164,7 @@ export default function Home() {
                     <h2 className="text-sm font-medium text-gray-500 mb-1">
                       Terhubung Sejak
                     </h2>
-                    <p className="text-gray-800">
+                    <p className="text-gray-800 text-md">
                       {lastConnectionTime.toLocaleString()}
                     </p>
                   </div>
@@ -175,12 +176,18 @@ export default function Home() {
                       Scan QR Code
                     </h2>
                     <div className="bg-white p-2 rounded border border-gray-200">
-                      <img
+                      {/* <img
                         src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
                           qrCode
                         )}&size=200x200`}
                         alt="QR Code"
                         className="mx-auto"
+                      /> */}
+                      <QRCode
+                        value={qrCode}
+                        size={200}
+                        className="mx-auto"
+                        style={{ width: "200px" }}
                       />
                     </div>
                     <p className="text-xs text-gray-500 mt-2 text-center">
