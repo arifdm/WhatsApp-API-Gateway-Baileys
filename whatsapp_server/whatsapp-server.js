@@ -90,11 +90,10 @@ async function initWASession(sessionId, socket) {
 
     waSocket.ev.on("connection.update", (update) => {
       const { connection, lastDisconnect, qr } = update;
-
       console.log(`[${sessionId}] Connection update:`, update);
 
       if (qr) {
-        console.log(`[${sessionId}] QR Code generated`);
+        // console.log(`[${sessionId}] QR Code generated`);
         socket.emit("qr_generated", { sessionId, qr, status: "awaiting_qr" });
       }
 
