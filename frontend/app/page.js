@@ -6,6 +6,7 @@ import Sidebar from "../components/Sidebar";
 import MessageForm from "../components/MessageForm";
 import DisconnectedState from "../components/DisconnectedState";
 import { createOrUpdateSession, getSession } from "../lib/sessionClient";
+import { sendMessage } from "@/lib/api";
 
 export default function Home() {
   const [sessionId, setSessionId] = useState("admin");
