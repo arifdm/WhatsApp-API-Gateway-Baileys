@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  price       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String?
+  featured    String?
+  status      Boolean  @default(true)
+  orders      orders[]
+
+  @@map("products")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  role      Role       @default(user)
+  status    UserStatus @default(active)
+  orders    orders[]
+
+  @@map("users")
+}
+
+model orders {
+  id              String            @id
+  productId       String
+  userId          String
+  paymentId       String?
+  referralId      String?
+  status          OrderStatus       @default(pending)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime
+  products        Product           @relation(fields: [productId], references: [id])
+  users           User              @relation(fields: [userId], references: [id])
+  referral_orders referral_orders[]
+}
+
+model payments {
+  id            String      @id
+  paymentCode   String      @unique
+  discount      Int
+  amount        Int
+  paymentMethod String
+  orderId       String
+  status        OrderStatus @default(pending)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime
+}
+
+model referral_orders {
+  id         String    @id
+  orderId    String
+  referralId String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime
+  orders     orders    @relation(fields: [orderId], references: [id])
+  referrals  referrals @relation(fields: [referralId], references: [id])
+}
+
+model referrals {
+  id              String            @id
+  code            String            @unique
+  discount        Int
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime
+  referralId      String?
+  referral_orders referral_orders[]
+}
+
+enum ProductStatus {
+  active
+  inactive
+  archived
+}
+
+enum OrderStatus {
+  pending
+  completed
+  cancelled
+}
+
+enum Role {
+  admin
+  user
+}
+
+enum UserStatus {
+  active
+  inactive
+}

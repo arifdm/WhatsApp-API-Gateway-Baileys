@@ -12,8 +12,9 @@ import {
 import Link from 'next/link';
 
 export async function User() {
-  let session = await auth();
-  let user = session?.user;
+  // let session = await auth();
+  // let user = session?.user;
+  let user = null;
 
   return (
     <DropdownMenu>

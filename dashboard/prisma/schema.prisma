@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -15,17 +8,90 @@ datasource db {
 }
 
 model Product {
-  id          String        @id @default(cuid())
-  imageUrl    String
+  id          String   @id @default(cuid())
   name        String
-  status      ProductStatus @default(active)
-  price       Float
-  stock       Int
-  availableAt DateTime
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  price       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String?
+  featured    String?
+  status      Boolean  @default(true)
+  orders      Order[]
 
   @@map("products")
+}
+
+model Order {
+  id            String          @id @default(cuid())
+  productId     String
+  userId        String
+  paymentId     String?
+  referralId    String?
+  status        OrderStatus     @default(pending)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  product       Product         @relation(fields: [productId], references: [id])
+  user          User            @relation(fields: [userId], references: [id])
+  referralOders ReferralOrder[]
+
+  @@map("orders")
+}
+
+model Referral {
+  id             String          @id @default(cuid())
+  code           String          @unique
+  discount       Int
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  referralId     String?
+  referralOrders ReferralOrder[]
+
+  @@map("referrals")
+}
+
+model ReferralOrder {
+  id         String   @id @default(cuid())
+  orderId    String
+  referralId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  order      Order    @relation(fields: [orderId], references: [id])
+  referral   Referral @relation(fields: [referralId], references: [id])
+
+  @@map("referral_orders")
+}
+
+model Payment {
+  id            String      @id @default(cuid())
+  paymentCode   String      @unique
+  discount      Int
+  amount        Int
+  paymentMethod String
+  orderId       String
+  status        OrderStatus @default(pending)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("payments")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  role      Role       @default(user)
+  status    UserStatus @default(active)
+  orders    Order[]
+
+  @@map("users")
+}
+
+enum Role {
+  admin
+  user
 }
 
 enum ProductStatus {
@@ -34,14 +100,13 @@ enum ProductStatus {
   archived
 }
 
-model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  phone     String?
-  status    String   @default("active")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum OrderStatus {
+  pending
+  completed
+  cancelled
+}
 
-  @@map("users")
+enum UserStatus {
+  active
+  inactive
 }

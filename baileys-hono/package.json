@@ -2,12 +2,12 @@
   "name": "whatsapp-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "whatsapp-server.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node index.js",
-    "start": "node index.js"
+    "dev": "node whatsapp-server.js",
+    "start": "node whatsapp-server.js"
   },
   "keywords": [],
   "author": "",
