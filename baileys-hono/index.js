@@ -13,9 +13,10 @@ import { cors } from "hono/cors";
 import { createServer } from "http";
 import path from "path";
 import { Server } from "socket.io";
+import logger from "./logger.js";
 
 const app = new Hono();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Create HTTP server separately for Socket.io
 const httpServer = createServer(async (req, res) => {
@@ -68,7 +69,8 @@ async function cleanupSession(sessionId) {
     try {
       await sessions[sessionId].waSocket.end();
     } catch (err) {
-      console.error(`[${sessionId}] Error closing connection:`, err);
+      // console.error(`[${sessionId}] Error closing connection:`, err);
+      logger.error(`[${sessionId}] Error closing connection: ${err.message}`);
     }
   }
 
@@ -81,7 +83,8 @@ async function cleanupSession(sessionId) {
 
 async function initWASession(sessionId, socket) {
   const sessionFolder = path.join(SESSION_PATH, sessionId);
-  console.log(`[${sessionId}] Initializing session`);
+  // console.log(`[${sessionId}] Initializing session`);
+  logger.info(`[${sessionId}] Initializing session`);
 
   try {
     if (!fs.existsSync(sessionFolder)) {
@@ -110,19 +113,26 @@ async function initWASession(sessionId, socket) {
 
     waSocket.ev.on("connection.update", (update) => {
       const { connection, lastDisconnect, qr } = update;
-      console.log(`[${sessionId}] Connection update:`, update);
+      // console.log(`[${sessionId}] Connection update:`, update);
+      logger.info(
+        `[${sessionId}] Connection update: ${JSON.stringify(update)}`
+      );
 
       if (qr) {
         socket.emit("qr_generated", { sessionId, qr, status: "awaiting_qr" });
       }
 
       if (connection) {
-        console.log(`[${sessionId}] Connection update: ${connection}`);
+        // console.log(`[${sessionId}] Connection update: ${connection}`);
+        logger.info(`[${sessionId}] Connection update: ${connection}`);
+
         sessions[sessionId].status = connection;
         socket.emit("status_change", { sessionId, status: connection });
 
         if (connection === "open") {
-          console.log(`[${sessionId}] Connected to WhatsApp`);
+          // console.log(`[${sessionId}] Connected to WhatsApp`);
+          logger.info(`[${sessionId}] Connected to WhatsApp`);
+
           socket.emit("status_change", { sessionId, status: "connected" });
         }
       }
@@ -131,16 +141,25 @@ async function initWASession(sessionId, socket) {
         const statusCode = lastDisconnect?.error?.output?.statusCode;
         const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
 
-        console.log(
-          `[${sessionId}] Disconnected, reason:`,
-          DisconnectReason[statusCode] || statusCode
+        // console.log(
+        //   `[${sessionId}] Disconnected, reason:`,
+        //   DisconnectReason[statusCode] || statusCode
+        // );
+        logger.info(
+          `[${sessionId}] Disconnected, reason: ${
+            DisconnectReason[statusCode] || statusCode
+          }`
         );
 
         if (shouldReconnect) {
-          console.log(`[${sessionId}] Reconnecting...`);
+          // console.log(`[${sessionId}] Reconnecting...`);
+          logger.info(`[${sessionId}] Reconnecting...`);
+
           setTimeout(() => initWASession(sessionId, socket), 5000);
         } else {
-          console.log(`[${sessionId}] Session logged out`);
+          // console.log(`[${sessionId}] Session logged out`);
+          logger.info(`[${sessionId}] Session logged out`);
+
           cleanupSession(sessionId);
           socket.emit("status_change", { sessionId, status: "logged_out" });
         }
@@ -155,20 +174,23 @@ async function initWASession(sessionId, socket) {
         msg.message?.extendedTextMessage?.text ||
         "";
 
-      console.log(`[${sessionId}] Message from ${sender}: ${text}`);
+      // console.log(`[${sessionId}] Message from ${sender}: ${text}`);
+      logger.info(`[${sessionId}] Message from ${sender}: ${text}`);
 
-      socket.emit("message_received", {
-        sessionId,
-        from: sender,
-        message: text,
-        messageId: msg.key.id,
-        isGroup: msg.key.remoteJid.endsWith("@g.us"),
-      });
+      // socket.emit("message_received", {
+      //   sessionId,
+      //   from: sender,
+      //   message: text,
+      //   messageId: msg.key.id,
+      //   isGroup: msg.key.remoteJid.endsWith("@g.us"),
+      // });
     });
 
     return waSocket;
   } catch (error) {
-    console.error(`[${sessionId}] Init error:`, error);
+    // console.error(`[${sessionId}] Init error:`, error);
+    logger.error(`[${sessionId}] Init error: ${error.message || error}`);
+
     await cleanupSession(sessionId);
     socket.emit("session_error", { sessionId, error: error.message });
     throw error;
@@ -176,7 +198,8 @@ async function initWASession(sessionId, socket) {
 }
 
 io.on("connection", (socket) => {
-  console.log("Client connected:", socket.id);
+  // console.log("Client connected:", socket.id);
+  logger.info("Client connected:", socket.id);
 
   const activeSessions = Object.entries(sessions).map(([id, session]) => ({
     id,
@@ -186,19 +209,26 @@ io.on("connection", (socket) => {
   socket.emit("sessions", activeSessions);
 
   socket.on("start_session", async (sessionId) => {
-    console.log(`Received start_session for: ${sessionId}`);
+    // console.log(`Received start_session for: ${sessionId}`);
+    logger.info(`Received start_session for: ${sessionId}`);
 
     try {
       if (sessions[sessionId]) {
-        console.log(`[${sessionId}] Session already exists`);
+        // console.log(`[${sessionId}] Session already exists`);
+        logger.info(`[${sessionId}] Session already exists`);
+
         return socket.emit("session_exists", { sessionId });
       }
 
-      console.log(`[${sessionId}] Initializing new session...`);
+      // console.log(`[${sessionId}] Initializing new session...`);
+      logger.info(`[${sessionId}] Initializing new session...`);
+
       await initWASession(sessionId, socket);
       socket.emit("session_ready", { sessionId });
     } catch (error) {
-      console.error(`[${sessionId}] Init failed:`, error);
+      // console.error(`[${sessionId}] Init failed:`, error);
+      logger.error(`[${sessionId}] Init failed: ${error.message || error}`);
+
       socket.emit("session_error", {
         sessionId,
         error: error.message,
@@ -208,14 +238,18 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect_session", async (sessionId) => {
     if (sessions[sessionId]) {
-      console.log(`[${sessionId}] Disconnecting session...`);
+      // console.log(`[${sessionId}] Disconnecting session...`);
+      logger.info(`[${sessionId}] Disconnecting session...`);
+
       await cleanupSession(sessionId);
       io.emit("status_change", { sessionId, status: "disconnected" });
     }
   });
 
   socket.on("disconnect", () => {
-    console.log("Client disconnected:", socket.id);
+    // console.log("Client disconnected:", socket.id);
+    logger.info("Client disconnected:", socket.id);
+
     Object.entries(sessions).forEach(([sessionId, session]) => {
       if (session.socketId === socket.id) {
         cleanupSession(sessionId);
@@ -258,7 +292,9 @@ app.post("/send-message", async (c) => {
       message: "Message sent successfully",
     });
   } catch (error) {
-    console.error("Error sending message: ", error);
+    // console.error("Error sending message: ", error);
+    logger.error(`[${sessionId}] Error sending message:`, error);
+
     return c.json(
       {
         success: false,
@@ -313,7 +349,9 @@ app.post("/reply-message", async (c) => {
       message: "Reply sent successfully",
     });
   } catch (error) {
-    console.error("Error replying message: ", error);
+    // console.error("Error replying message: ", error);
+    logger.error(`[${sessionId}] Error replying message:`, error);
+
     return c.json(
       {
         success: false,
@@ -333,4 +371,5 @@ app.get("/health", (c) => {
 
 httpServer.listen(PORT, () => {
   console.log(`✅ WhatsApp Server running on port ${PORT}`);
+  logger.info(`WhatsApp Server running on port ${PORT}`);
 });
