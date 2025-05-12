@@ -74,9 +74,9 @@ async function initWASession(sessionId, socket) {
     const waSocket = makeWASocket({
       version,
       auth: state,
-      printQRInTerminal: true,
+      printQRInTerminal: false,
       browser: ["Baileys", "Chrome", "121.0.0.0"],
-      connectTimeoutMs: 60000,
+      connectTimeoutMs: 120000,
       shouldIgnoreJid: () => false,
     });
 

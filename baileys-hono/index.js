@@ -97,9 +97,9 @@ async function initWASession(sessionId, socket) {
     const waSocket = makeWASocket({
       version,
       auth: state,
-      printQRInTerminal: true,
+      printQRInTerminal: false,
       browser: ["Baileys", "Chrome", "121.0.0.0"],
-      connectTimeoutMs: 60000,
+      connectTimeoutMs: 120000,
       shouldIgnoreJid: () => false,
     });
 
@@ -281,6 +281,16 @@ app.post("/send-message", async (c) => {
           message: "Session not found or not connected",
         },
         404
+      );
+    }
+
+    if (session.status !== "open") {
+      return c.json(
+        {
+          success: false,
+          message: "Session is not connected",
+        },
+        400
       );
     }
 

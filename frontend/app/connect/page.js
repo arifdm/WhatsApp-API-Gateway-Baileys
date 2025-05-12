@@ -1,107 +1,58 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import ListStatusDevices from "@/components/ListStatusDevices";
+import WaStatus from "@/components/WaStatus";
 import { useRouter } from "next/navigation"; // Import useRouter dari Next.js
-import { socket } from "@/lib/socket";
-import Sidebar from "@/components/Sidebar";
-import MessageForm from "@/components/MessageForm";
-import DisconnectedState from "@/components/DisconnectedState";
-import { createOrUpdateSession, getSession } from "@/lib/sessionClient";
-import { sendMessage } from "@/lib/api";
+import { useState } from "react";
 
 export default function Home() {
-  const router = useRouter(); // Inisialisasi router
-  const [sessionId, setSessionId] = useState("admin");
-  const [qrCode, setQrCode] = useState(null);
-  const [status, setStatus] = useState("disconnected");
-  const [number, setNumber] = useState("");
-  const [message, setMessage] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [sessionId, setSessionId] = useState("");
   const [lastConnectionTime, setLastConnectionTime] = useState(null);
+  const [qrCode, setQrCode] = useState(null);
+  const [status, setStatus] = useState(null);
 
-  // Socket event handlers
-  useEffect(() => {
-    const loadSession = async () => {
-      try {
-        const sessionData = await getSession(sessionId);
-        if (sessionData?.status) {
-          setStatus(sessionData.status);
-          if (sessionData.status === "connected") {
-            setLastConnectionTime(new Date(sessionData.updatedAt));
-          }
-        }
-      } catch (error) {
-        console.error("Failed to load session:", error);
-      }
-    };
+  const handleAddSession = (newSessionId) => {
+    setSessionId(newSessionId);
+    setQrCode(null);
+    setStatus("initializing");
+    setLastConnectionTime(null);
 
-    loadSession();
-  }, [sessionId]);
-
-  // Socket event handlers
-  useEffect(() => {
-    const handleQrGenerated = async (data) => {
-      if (data.sessionId === sessionId) {
-        setQrCode(data.qr);
-        setStatus("awaiting_qr");
-        await createOrUpdateSession(sessionId, "awaiting_qr");
-      }
-    };
-
-    const handleStatusChange = async (data) => {
-      if (data.sessionId === sessionId) {
-        setStatus(data.status);
-        await createOrUpdateSession(sessionId, data.status);
-        if (data.status === "connected") {
-          setQrCode(null);
-          setLastConnectionTime(new Date());
-        }
-      }
-    };
-
-    socket.on("qr_generated", handleQrGenerated);
-    socket.on("status_change", handleStatusChange);
-
-    // socket.on("message_received", (data) => {
-    //   console.log("MESSAGE_RECEIVED", data);
-    // });
-
-    // Start session on initial load
-    socket.emit("start_session", sessionId);
-    createOrUpdateSession(sessionId, "initializing");
-
-    return () => {
-      socket.off("qr_generated", handleQrGenerated);
-      socket.off("status_change", handleStatusChange);
-    };
-  }, [sessionId]);
-
-  // Navigasi ke halaman lain jika status adalah "connected"
-  useEffect(() => {
-    if (status === "connected") {
-      router.push("/dashboard"); // Ganti "/dashboard" dengan halaman tujuan Anda
-    }
-  }, [status, router]);
-
-  const handleDisconnect = () => {
-    socket.emit("logout_session", sessionId);
-    setStatus("disconnected");
-    setFeedback("Sesi telah diputuskan");
+    socket.emit("start_session", newSessionId);
+    createOrUpdateSession(newSessionId, "initializing");
   };
 
   return (
-    <main className="flex-grow container mx-auto px-4 py-6">
+    <main className="container mx-auto px-4 py-6">
       <div className="flex flex-col md:flex-row gap-6">
-        <Sidebar
-          sessionId={sessionId}
-          status={status}
-          qrCode={qrCode}
-          lastConnectionTime={lastConnectionTime}
-          onDisconnect={handleDisconnect}
-        />
-
-        <div className="w-full md:w-2/3">
-          <DisconnectedState status={status} />
+        <WaStatus sessionId={sessionId} setSessionId={setSessionId} />
+        <div className="w-full md:w-4/5">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const newSessionId = e.target.elements.sessionId.value.trim();
+              if (newSessionId) {
+                handleAddSession(newSessionId);
+              }
+            }}
+            className="flex flex-row gap-4 rounded-lg bg-white shadow-md p-4 mb-6"
+          >
+            <input
+              type="text"
+              name="sessionId"
+              placeholder="Masukkan Session ID"
+              className="border border-gray-400 rounded px-4 w-full mb-2 h-[45px] focus:outline-none focus:border-blue-500"
+            />
+            <button
+              type="submit"
+              className="bg-green-600 text-white px-4 rounded hover:bg-green-500 w-sm h-[45px] flex items-center justify-center cursor-pointer"
+            >
+              Tambah Device
+            </button>
+          </form>
+          <ListStatusDevices
+            sessionId={sessionId}
+            setSessionId={setSessionId}
+          />
         </div>
       </div>
     </main>

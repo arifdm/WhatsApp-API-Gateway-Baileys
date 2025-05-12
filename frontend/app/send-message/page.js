@@ -2,12 +2,27 @@
 
 import MessageForm from "@/components/MessageForm";
 import { sendMessage } from "@/lib/api";
-import { useState } from "react";
+import { getSession } from "@/lib/sessionClient";
+import { useEffect, useState } from "react";
 
 export default function Page() {
+  const sessionId = "admin"; // Replace with your actual session ID
   const [number, setNumber] = useState("");
   const [message, setMessage] = useState("");
   const [feedback, setFeedback] = useState("");
+
+  useEffect(() => {
+    const loadSession = async () => {
+      try {
+        const sessionData = await getSession(sessionId);
+        console.log("SESSION_DATA: ", sessionData);
+      } catch (error) {
+        console.error("Failed to load session:", error);
+      }
+    };
+
+    loadSession();
+  }, [sessionId]);
 
   return (
     <main className="flex-grow container mx-auto px-4 py-6 w-3xl">

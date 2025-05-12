@@ -1,5 +1,5 @@
-import ConnectionStatus from "../ConnectionStatus";
-import QRCodeDisplay from "../QRCodeDisplay";
+import ConnectionStatus from "./ConnectionStatus";
+import QRCodeDisplay from "./QRCodeDisplay";
 
 export default function Sidebar({
   sessionId,

@@ -4,13 +4,13 @@ export const createOrUpdateSession = async (
   sessionId,
   status,
   phone = null,
-  name = null
+  userId = null
 ) => {
   const response = await axios.post("/api/sessions", {
     sessionId,
     status,
     phone,
-    name,
+    userId,
   });
 
   if (!response) {
@@ -22,8 +22,23 @@ export const createOrUpdateSession = async (
 };
 
 export const getSession = async (sessionId) => {
-  const response = await axios.get(`/api/sessions?sessionId=${sessionId}`);
-  console.log("RESPONSE_SESSION", response.data);
+  if (!sessionId) {
+    throw new Error("Session ID is required");
+  }
+
+  const response = await axios.get(`/api/sessions/${sessionId}`);
+  // console.log("RESPONSE_SESSION", response.data);
+
+  if (!response) {
+    throw new Error("Failed to get session");
+  }
+
+  return await response.data;
+};
+
+export const getAllSession = async () => {
+  const response = await axios.get("/api/sessions");
+  // console.log("RESPONSE_SESSION", response.data);
 
   if (!response) {
     throw new Error("Failed to get session");
