@@ -16,7 +16,7 @@ import { Server } from "socket.io";
 import logger from "./logger.js";
 
 const app = new Hono();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 // Create HTTP server separately for Socket.io
 const httpServer = createServer(async (req, res) => {
@@ -261,6 +261,7 @@ io.on("connection", (socket) => {
 // API Routes
 app.post("/send-message", async (c) => {
   const { sessionId, number, message } = await c.req.json();
+  console.log("BODY: ", sessionId, number, message);
 
   if (!sessionId || !number || !message) {
     return c.json(
@@ -274,6 +275,8 @@ app.post("/send-message", async (c) => {
 
   try {
     const session = sessions[sessionId];
+    // console.log("SESSION_SEND_MESSAGE: ", session);
+
     if (!session || !session.waSocket) {
       return c.json(
         {

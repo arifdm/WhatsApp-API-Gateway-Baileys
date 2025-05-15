@@ -2,14 +2,35 @@
 
 import ListStatusDevices from "@/components/ListStatusDevices";
 import WaStatus from "@/components/WaStatus";
-import { useRouter } from "next/navigation"; // Import useRouter dari Next.js
-import { useState } from "react";
+import { createOrUpdateSession } from "@/lib/sessionClient";
+import { socket } from "@/lib/socket";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const router = useRouter();
   const [sessionId, setSessionId] = useState("");
   const [lastConnectionTime, setLastConnectionTime] = useState(null);
   const [qrCode, setQrCode] = useState(null);
   const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    if (!sessionId) return;
+
+    socket.on("message_received", (data) => {
+      console.log("MESSAGE_RECEIVED", data);
+      if (
+        data.sessionId === sessionId &&
+        data.from.endsWith("@s.whatsapp.net")
+      ) {
+        // console.log("Pesan diterima:", data.message);
+        const phone = data.from.split("@")[0];
+        createOrUpdateSession(sessionId, "connected", phone).then((res) => {
+          if (res) router.push("/");
+        });
+      }
+    });
+  }, [sessionId]);
 
   const handleAddSession = (newSessionId) => {
     setSessionId(newSessionId);
@@ -22,7 +43,7 @@ export default function Home() {
   };
 
   return (
-    <main className="container mx-auto px-4 py-6">
+    <main className="flex-grow container mx-auto px-4 py-6 w-7xl">
       <div className="flex flex-col md:flex-row gap-6">
         <WaStatus sessionId={sessionId} setSessionId={setSessionId} />
         <div className="w-full md:w-4/5">

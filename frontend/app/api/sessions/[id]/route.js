@@ -2,9 +2,7 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
-  console.log("PARAMS", params);
-  const sessionId = params?.id;
-
+  const { id: sessionId } = await params;
   console.log("SESSION_ID", sessionId);
 
   if (!sessionId) {

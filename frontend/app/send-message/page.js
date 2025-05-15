@@ -6,7 +6,7 @@ import { getSession } from "@/lib/sessionClient";
 import { useEffect, useState } from "react";
 
 export default function Page() {
-  const sessionId = "admin"; // Replace with your actual session ID
+  const sessionId = "user-baileys"; // Replace with your actual session ID
   const [number, setNumber] = useState("");
   const [message, setMessage] = useState("");
   const [feedback, setFeedback] = useState("");

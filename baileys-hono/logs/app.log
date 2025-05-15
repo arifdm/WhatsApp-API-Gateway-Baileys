@@ -3432,3 +3432,184 @@
 2025-05-11T03:43:06.125Z [INFO]: [admin] Session already exists
 2025-05-11T03:43:06.485Z [INFO]: Received start_session for: admin
 2025-05-11T03:43:06.485Z [INFO]: [admin] Session already exists
+2025-05-12T23:33:12.363Z [INFO]: WhatsApp Server running on port 5001
+2025-05-12T23:34:42.464Z [INFO]: WhatsApp Server running on port 5001
+2025-05-12T23:37:44.791Z [INFO]: Client connected:
+2025-05-12T23:37:59.012Z [INFO]: Client disconnected:
+2025-05-12T23:37:59.079Z [INFO]: Client connected:
+2025-05-12T23:38:00.516Z [INFO]: Client connected:
+2025-05-12T23:38:20.413Z [INFO]: Client disconnected:
+2025-05-12T23:38:21.783Z [INFO]: Client connected:
+2025-05-12T23:38:26.379Z [INFO]: Client disconnected:
+2025-05-12T23:38:27.914Z [INFO]: Client connected:
+2025-05-12T23:38:40.211Z [INFO]: Received start_session for: arifdm
+2025-05-12T23:38:40.211Z [INFO]: [arifdm] Initializing new session...
+2025-05-12T23:38:40.215Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:38:40.625Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:38:40.626Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:38:41.604Z [INFO]: [arifdm] Connection update: {"qr":"2@5F2Bh7jgsvLbT9zqwUp+iAQYagpnysf06Qs1d1AYFfLvFlWzunVISAJpQchl25f+aPZlrwHG1nbUb1hiSVuXoN7No2qf/xq/Z2s=,dNHgNj7QVUql6aBh1ziAj+e1pleQVJLqu74/0djy1nE=,9HxBa8pfY1BDqX9JfRVKAtZ0mjT7/xIMhd0Qg+rh6xA=,4MO7+rejwyBa+pP3uM3zEzDzpgDfh1d8PX1vhL/aIro="}
+2025-05-12T23:39:10.817Z [INFO]: [arifdm] Connection update: {"isNewLogin":true}
+2025-05-12T23:39:11.208Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"error":{"data":{"tag":"stream:error","attrs":{"code":"515"}},"isBoom":true,"isServer":true,"output":{"statusCode":515,"payload":{"statusCode":515,"error":"Unknown","message":"Stream Errored (restart required)"},"headers":{}}},"date":"2025-05-12T23:39:11.208Z"}}
+2025-05-12T23:39:11.209Z [INFO]: [arifdm] Connection update: close
+2025-05-12T23:39:11.209Z [INFO]: [arifdm] Disconnected, reason: restartRequired
+2025-05-12T23:39:11.210Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:39:16.216Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:39:16.304Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:39:16.304Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:39:17.403Z [INFO]: [arifdm] Connection update: {"receivedPendingNotifications":true}
+2025-05-12T23:39:18.072Z [INFO]: [arifdm] Connection update: {"connection":"open"}
+2025-05-12T23:39:18.072Z [INFO]: [arifdm] Connection update: open
+2025-05-12T23:39:18.073Z [INFO]: [arifdm] Connected to WhatsApp
+2025-05-12T23:39:26.182Z [INFO]: [arifdm] Message from 6282142000908@s.whatsapp.net: 
+2025-05-12T23:39:52.260Z [INFO]: [arifdm] Message from 6282142000908@s.whatsapp.net: 
+2025-05-12T23:40:11.492Z [INFO]: [arifdm] Message from 6282142000908@s.whatsapp.net: 
+2025-05-12T23:40:24.120Z [INFO]: [arifdm] Message from 6282142000908@s.whatsapp.net: 
+2025-05-12T23:40:47.144Z [INFO]: Client disconnected:
+2025-05-12T23:40:47.249Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"date":"2025-05-12T23:40:47.249Z"}}
+2025-05-12T23:40:47.249Z [INFO]: [arifdm] Connection update: close
+2025-05-12T23:40:47.250Z [INFO]: [arifdm] Disconnected, reason: undefined
+2025-05-12T23:40:47.250Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:40:52.255Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:40:52.381Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:40:52.381Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:40:53.668Z [INFO]: [arifdm] Connection update: {"qr":"2@BQj04qD53frBv62+a9ZIs4TWgEnr5C5gm/A3RfRLVtH8h3bwx58Jw4OU/xnCQlxSacv4rWF0SqBFgVJCIdrXi07W31laSA4ID1A=,AuAadkY/g3+1yQXsbpvCh6dIy7eHsrEsLQ3R6ZMzDiM=,F1HgZUURrReOrMuGKJRcfsWfoRafNhn9d6tiNJI/t1U=,/LWfOgM+fPtscJZYVnf0ZTmeZbIXlWiU0DRWTnW2b2o="}
+2025-05-12T23:41:53.672Z [INFO]: [arifdm] Connection update: {"qr":"2@X1TEmyvtq+LDjXCns9kmYv5qJf1icfsjPQxIETuJhU8NqZ3UeToS/FQ2oN7JZs5TMg/4+KzXR/hkAFeqR/UpSw95J1/JL0TkPL4=,AuAadkY/g3+1yQXsbpvCh6dIy7eHsrEsLQ3R6ZMzDiM=,F1HgZUURrReOrMuGKJRcfsWfoRafNhn9d6tiNJI/t1U=,/LWfOgM+fPtscJZYVnf0ZTmeZbIXlWiU0DRWTnW2b2o="}
+2025-05-12T23:42:13.676Z [INFO]: [arifdm] Connection update: {"qr":"2@VJF8cflfso50AwkngkrWxmWUbkvJu6wMPZMOMkmdYuG3k4K+3MtGhypstXPKF1AShFKQlwH1855ewMWfFu2emVcJFcSl98mjFzE=,AuAadkY/g3+1yQXsbpvCh6dIy7eHsrEsLQ3R6ZMzDiM=,F1HgZUURrReOrMuGKJRcfsWfoRafNhn9d6tiNJI/t1U=,/LWfOgM+fPtscJZYVnf0ZTmeZbIXlWiU0DRWTnW2b2o="}
+2025-05-12T23:42:33.676Z [INFO]: [arifdm] Connection update: {"qr":"2@BUuUHot5lJ5VnVyO7RwqP4voT4oiT/qNBK5QlSL4NNRwQG9AAXxURylhqLWJAv4XNcnxLN90FcMtktOtGYDTyJYVWTzQZ8YFLuo=,AuAadkY/g3+1yQXsbpvCh6dIy7eHsrEsLQ3R6ZMzDiM=,F1HgZUURrReOrMuGKJRcfsWfoRafNhn9d6tiNJI/t1U=,/LWfOgM+fPtscJZYVnf0ZTmeZbIXlWiU0DRWTnW2b2o="}
+2025-05-12T23:42:53.677Z [INFO]: [arifdm] Connection update: {"qr":"2@D5756lO9W0FN+8cx8tdcpqrI7EAO18qV+ibXKW/tG+ZXJPO/fK6HPHFuSwar09QZUgASWC9fNPahjK3Dt5JPBME1DMXh+ekmz3I=,AuAadkY/g3+1yQXsbpvCh6dIy7eHsrEsLQ3R6ZMzDiM=,F1HgZUURrReOrMuGKJRcfsWfoRafNhn9d6tiNJI/t1U=,/LWfOgM+fPtscJZYVnf0ZTmeZbIXlWiU0DRWTnW2b2o="}
+2025-05-12T23:43:13.680Z [INFO]: [arifdm] Connection update: {"qr":"2@cUp1OgXM4xZGNSv8Sc2M6DoBbX/ubSnAzakek56rJtPGAqbi+oqqASaUg983yx2rQlkGdq+wFHl+HOxss2/Z9uQoDiVhuImxcfc=,AuAadkY/g3+1yQXsbpvCh6dIy7eHsrEsLQ3R6ZMzDiM=,F1HgZUURrReOrMuGKJRcfsWfoRafNhn9d6tiNJI/t1U=,/LWfOgM+fPtscJZYVnf0ZTmeZbIXlWiU0DRWTnW2b2o="}
+2025-05-12T23:43:33.685Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"error":{"data":null,"isBoom":true,"isServer":false,"output":{"statusCode":408,"payload":{"statusCode":408,"error":"Request Time-out","message":"QR refs attempts ended"},"headers":{}}},"date":"2025-05-12T23:43:33.685Z"}}
+2025-05-12T23:43:33.685Z [INFO]: [arifdm] Connection update: close
+2025-05-12T23:43:33.685Z [INFO]: [arifdm] Disconnected, reason: timedOut
+2025-05-12T23:43:33.685Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:43:38.688Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:43:38.823Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:43:38.823Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:43:39.652Z [INFO]: [arifdm] Connection update: {"qr":"2@P/qH8qtZFD4QlhK4ODpdOlsgc2Ca6D0dgYC9p5HyUNNV37Jg3cisyOyRfkMZ9SKQq6YcSA6HdzPgO06pWmP/uF8oTg0U/y7Z+Uk=,Hv3seeeYxmKaJmWnAVF2qJolJLk1sFExWpgR9Boblyo=,82EA8v9/n3RN/wBgUuro87LkLGcWMqIV4VKP/f3H3HU=,NSY5UGWu51afFBRDt8/0XlkJm1lKzodalLF6e8cmcWg="}
+2025-05-12T23:44:39.657Z [INFO]: [arifdm] Connection update: {"qr":"2@wGOKQV2rIH4JUzqnoH6igzQDQj5bl/Qvp21BMiqXVqffSq7+e7doB4ZAI7IQqFKKb/AcmHsfwSMMz3JyjxOz/3Gm4FCwL9Rg11E=,Hv3seeeYxmKaJmWnAVF2qJolJLk1sFExWpgR9Boblyo=,82EA8v9/n3RN/wBgUuro87LkLGcWMqIV4VKP/f3H3HU=,NSY5UGWu51afFBRDt8/0XlkJm1lKzodalLF6e8cmcWg="}
+2025-05-12T23:44:59.661Z [INFO]: [arifdm] Connection update: {"qr":"2@eQo+4wKVtiDX+XJtsH+HR/KVYhcRAJynSelRXjBO7pxCDAYNebsd9aLrJErxM9AXLxD2Q99kAEa6EJxHQ1tFKSmwqSF14H8ecAE=,Hv3seeeYxmKaJmWnAVF2qJolJLk1sFExWpgR9Boblyo=,82EA8v9/n3RN/wBgUuro87LkLGcWMqIV4VKP/f3H3HU=,NSY5UGWu51afFBRDt8/0XlkJm1lKzodalLF6e8cmcWg="}
+2025-05-12T23:45:19.663Z [INFO]: [arifdm] Connection update: {"qr":"2@M3vNdFFQJGoniTiptLReNoECnWETKQ4lj2CjoNzY1JPNJKyYW69UKLVZDq2va5YKKLqkJ5Pm9VXMf5BuMb4/n3NtfiQUwW0qksA=,Hv3seeeYxmKaJmWnAVF2qJolJLk1sFExWpgR9Boblyo=,82EA8v9/n3RN/wBgUuro87LkLGcWMqIV4VKP/f3H3HU=,NSY5UGWu51afFBRDt8/0XlkJm1lKzodalLF6e8cmcWg="}
+2025-05-12T23:45:39.665Z [INFO]: [arifdm] Connection update: {"qr":"2@jHTG6Swa77TNtaJ6Gu68NDQ8BX8X4JwImBh4bX1m74dg5E1GEY2cFL1wqeiIYNRzbjDhGK1jJbWM48vlCk9d4ac9HlpE9RLHcok=,Hv3seeeYxmKaJmWnAVF2qJolJLk1sFExWpgR9Boblyo=,82EA8v9/n3RN/wBgUuro87LkLGcWMqIV4VKP/f3H3HU=,NSY5UGWu51afFBRDt8/0XlkJm1lKzodalLF6e8cmcWg="}
+2025-05-12T23:45:59.667Z [INFO]: [arifdm] Connection update: {"qr":"2@86LwSCZCMyb/cK5ObbfYZ6s3QftJXgGBaNFhiHQfxhPZ1IHd5Hl38MyNsPgYRxEjbj8tZXmZ+a2FicfnADLOswbKeTAcyNssUrc=,Hv3seeeYxmKaJmWnAVF2qJolJLk1sFExWpgR9Boblyo=,82EA8v9/n3RN/wBgUuro87LkLGcWMqIV4VKP/f3H3HU=,NSY5UGWu51afFBRDt8/0XlkJm1lKzodalLF6e8cmcWg="}
+2025-05-12T23:46:19.673Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"error":{"data":null,"isBoom":true,"isServer":false,"output":{"statusCode":408,"payload":{"statusCode":408,"error":"Request Time-out","message":"QR refs attempts ended"},"headers":{}}},"date":"2025-05-12T23:46:19.673Z"}}
+2025-05-12T23:46:19.674Z [INFO]: [arifdm] Connection update: close
+2025-05-12T23:46:19.674Z [INFO]: [arifdm] Disconnected, reason: timedOut
+2025-05-12T23:46:19.674Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:46:24.677Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:46:24.781Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:46:24.781Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:46:25.729Z [INFO]: [arifdm] Connection update: {"qr":"2@fpFsBcQFkXTCTsnVPU5Ou4Jt4bD83/1BKebOxooMa9DQrGHCxCJdDeZz6grG9d91b9eZE4XTWmGAKUWX7pUPt+tDtns/CtvyhN8=,bBrVjvWDJagPR2YXUTdblB5ZTaFOG4oALMcLpad/8A4=,ce/asuoJ135FXwTruulz7vLvJUP5yKiIW1aKD2f2Lz8=,W4an2maLVyCTojN2NLbaw/Jwgjw4aTkNQB4a6d/D5Pg="}
+2025-05-12T23:47:25.732Z [INFO]: [arifdm] Connection update: {"qr":"2@t3FJqQWsBdatEML/DUJSd1NBwZmTJ8fxY7rxXHBO+gV526rJDySUIW6RrvCLY7AvDft5dvOoPyCSiOnp1F7/uxTsLTZ8lOLg/lw=,bBrVjvWDJagPR2YXUTdblB5ZTaFOG4oALMcLpad/8A4=,ce/asuoJ135FXwTruulz7vLvJUP5yKiIW1aKD2f2Lz8=,W4an2maLVyCTojN2NLbaw/Jwgjw4aTkNQB4a6d/D5Pg="}
+2025-05-12T23:47:45.738Z [INFO]: [arifdm] Connection update: {"qr":"2@ivl2L/HNWjr/3/tDvRW93GsKaWxjKXY+o6HJYnXkGs7aRQspUcnfV8Z2i2N3FJ5KP77ZmzO4IWYCGH/SxpkI5hN+pICaVv2DHwg=,bBrVjvWDJagPR2YXUTdblB5ZTaFOG4oALMcLpad/8A4=,ce/asuoJ135FXwTruulz7vLvJUP5yKiIW1aKD2f2Lz8=,W4an2maLVyCTojN2NLbaw/Jwgjw4aTkNQB4a6d/D5Pg="}
+2025-05-12T23:48:05.744Z [INFO]: [arifdm] Connection update: {"qr":"2@9mbBiET3IOWuCnpNG6b1q7gc0WzTkkUFWYkaAhWLwmnmh0/cCIeOiMz88yjRZWPNzZ7J21FHawXanNMt+tJTBTP76jI+52ezkpQ=,bBrVjvWDJagPR2YXUTdblB5ZTaFOG4oALMcLpad/8A4=,ce/asuoJ135FXwTruulz7vLvJUP5yKiIW1aKD2f2Lz8=,W4an2maLVyCTojN2NLbaw/Jwgjw4aTkNQB4a6d/D5Pg="}
+2025-05-12T23:48:25.748Z [INFO]: [arifdm] Connection update: {"qr":"2@PKHRHEtluau66Pft73boPPSF5ayJY7E690gqJdBdciMVhQXJoce3XJjlmPG2Vay6ifqhmoOCPePh2otwvtitv6sg5Cnl4ZgtqTE=,bBrVjvWDJagPR2YXUTdblB5ZTaFOG4oALMcLpad/8A4=,ce/asuoJ135FXwTruulz7vLvJUP5yKiIW1aKD2f2Lz8=,W4an2maLVyCTojN2NLbaw/Jwgjw4aTkNQB4a6d/D5Pg="}
+2025-05-12T23:48:45.756Z [INFO]: [arifdm] Connection update: {"qr":"2@EFthBpydU4YmFv41vUcsRLaZ0Ej9fMy6EVtmHybC7ICQswhdPgBDbRUrYpU5tHAJhVI179YuTjUQjE6vkQgbx7fIvcXmyQYVlQ0=,bBrVjvWDJagPR2YXUTdblB5ZTaFOG4oALMcLpad/8A4=,ce/asuoJ135FXwTruulz7vLvJUP5yKiIW1aKD2f2Lz8=,W4an2maLVyCTojN2NLbaw/Jwgjw4aTkNQB4a6d/D5Pg="}
+2025-05-12T23:49:05.881Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"error":{"data":null,"isBoom":true,"isServer":false,"output":{"statusCode":408,"payload":{"statusCode":408,"error":"Request Time-out","message":"QR refs attempts ended"},"headers":{}}},"date":"2025-05-12T23:49:05.881Z"}}
+2025-05-12T23:49:05.881Z [INFO]: [arifdm] Connection update: close
+2025-05-12T23:49:05.881Z [INFO]: [arifdm] Disconnected, reason: timedOut
+2025-05-12T23:49:05.881Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:49:10.886Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:49:11.040Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:49:11.040Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:49:12.357Z [INFO]: [arifdm] Connection update: {"qr":"2@4FFVm4pOC7DSf8CRt/ulDA2KA/NWPYliJ6mhi12ynJklBvUCtd+u9ijQezgBvVNVU0uhLorm303zTFWkkuttKtFHNZKRvDKXE7E=,hpu+GzRNzZma+mOWqzE9vfCEDSScmGsJn0ZQfQFZwzg=,Syq8UwC9UNhKxwTTdESFf+yaeJ80R9EJT/qM9SZzNQY=,W0rBQi6suhbF01d7XwmL4Kt7U+CRLBocY/vlTLgu7xk="}
+2025-05-12T23:50:12.361Z [INFO]: [arifdm] Connection update: {"qr":"2@lNcKN+EPSC3VTbYDOwfoUtKTaI8ttF7wMM7puaw3rnPFCiDMYnc2QMc5rGYFg2DQ1y2EUIEOAx8S0Z1amWF2XUM/jiPEE0qaIks=,hpu+GzRNzZma+mOWqzE9vfCEDSScmGsJn0ZQfQFZwzg=,Syq8UwC9UNhKxwTTdESFf+yaeJ80R9EJT/qM9SZzNQY=,W0rBQi6suhbF01d7XwmL4Kt7U+CRLBocY/vlTLgu7xk="}
+2025-05-12T23:50:32.364Z [INFO]: [arifdm] Connection update: {"qr":"2@vJ4nbjd23rNUUBGUh92HVNS7fDbL5shGGyybsUcLpayCrAeTfMHK3MX19YpPKwnaksTbpiPj9zB/aWc6L6+B+md5RjjqKEiKgws=,hpu+GzRNzZma+mOWqzE9vfCEDSScmGsJn0ZQfQFZwzg=,Syq8UwC9UNhKxwTTdESFf+yaeJ80R9EJT/qM9SZzNQY=,W0rBQi6suhbF01d7XwmL4Kt7U+CRLBocY/vlTLgu7xk="}
+2025-05-12T23:50:52.365Z [INFO]: [arifdm] Connection update: {"qr":"2@m2QKcuHCx0qGM5wfY44T8Zuzwr8uWY6psLb2hDRNjR5EHhvakbKpGIqNs/2VzBK+GYHHsZvkXP6nQHiUG5eHyZw2YvUB7L1WDbw=,hpu+GzRNzZma+mOWqzE9vfCEDSScmGsJn0ZQfQFZwzg=,Syq8UwC9UNhKxwTTdESFf+yaeJ80R9EJT/qM9SZzNQY=,W0rBQi6suhbF01d7XwmL4Kt7U+CRLBocY/vlTLgu7xk="}
+2025-05-12T23:51:12.370Z [INFO]: [arifdm] Connection update: {"qr":"2@8fw7EWUa90/41bshIooib/ke2iy7RtbGRqLNtA7eUEf16E0z9R9cH2+BDWnKqnQ+knMeVWC3TwxVq5Kf5mhpGXYpaOj3lb/gUfc=,hpu+GzRNzZma+mOWqzE9vfCEDSScmGsJn0ZQfQFZwzg=,Syq8UwC9UNhKxwTTdESFf+yaeJ80R9EJT/qM9SZzNQY=,W0rBQi6suhbF01d7XwmL4Kt7U+CRLBocY/vlTLgu7xk="}
+2025-05-12T23:51:32.408Z [INFO]: [arifdm] Connection update: {"qr":"2@ciIQB7XY1OySH4pcKu2w9nRMjfM5c0DIFtKJ8zG6NZKjJQXZsmCMu/IL5CKDFQ6fFI5HvUe7xv5bqpb1gtmAc5dPjvXUqZkxxcE=,hpu+GzRNzZma+mOWqzE9vfCEDSScmGsJn0ZQfQFZwzg=,Syq8UwC9UNhKxwTTdESFf+yaeJ80R9EJT/qM9SZzNQY=,W0rBQi6suhbF01d7XwmL4Kt7U+CRLBocY/vlTLgu7xk="}
+2025-05-12T23:51:52.415Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"error":{"data":null,"isBoom":true,"isServer":false,"output":{"statusCode":408,"payload":{"statusCode":408,"error":"Request Time-out","message":"QR refs attempts ended"},"headers":{}}},"date":"2025-05-12T23:51:52.415Z"}}
+2025-05-12T23:51:52.415Z [INFO]: [arifdm] Connection update: close
+2025-05-12T23:51:52.415Z [INFO]: [arifdm] Disconnected, reason: timedOut
+2025-05-12T23:51:52.415Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:51:57.419Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:51:57.530Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:51:57.530Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:51:58.417Z [INFO]: [arifdm] Connection update: {"qr":"2@Bhs43HQ6JcGA1CBujM+ehpX5MS82hKukm/CNrzclc5g8ciMMXbD2fcyjNAEgJqaUnQXkIUjQqVkb3gcHoDL3ZWiA1up6TJCEUzY=,dXgdirXQQvPxcto+FEKbVX7PrgwvotV5mbW26mDkR1g=,O2iNab70ZqhIl6OzXeJ0pMGb10XM7En2gCjgIDuOqlg=,WG/UVOK5f9V2Z9LuZH/Sb0zgYPV89ezo965wTx/T+AQ="}
+2025-05-12T23:52:58.424Z [INFO]: [arifdm] Connection update: {"qr":"2@FTHV5OlNdgmOb+NXUygZleiEOdfgQ3LXoVBnaDupbIvm+t6iTx8Lhsz5oUw8ddy/r0Q4BshKEse2wEbVxH9dqXLDwL2NX+J7mBU=,dXgdirXQQvPxcto+FEKbVX7PrgwvotV5mbW26mDkR1g=,O2iNab70ZqhIl6OzXeJ0pMGb10XM7En2gCjgIDuOqlg=,WG/UVOK5f9V2Z9LuZH/Sb0zgYPV89ezo965wTx/T+AQ="}
+2025-05-12T23:53:18.430Z [INFO]: [arifdm] Connection update: {"qr":"2@+Pxvq/b/x4kfttM/TGuRYUwrM5YEA2wnVlrqbzvlC4PRs+zMwgreVDF4HPbCfKy5Vexdd1ChYlmQPLoTTsTldRbLcsDmHF/4E8w=,dXgdirXQQvPxcto+FEKbVX7PrgwvotV5mbW26mDkR1g=,O2iNab70ZqhIl6OzXeJ0pMGb10XM7En2gCjgIDuOqlg=,WG/UVOK5f9V2Z9LuZH/Sb0zgYPV89ezo965wTx/T+AQ="}
+2025-05-12T23:53:38.434Z [INFO]: [arifdm] Connection update: {"qr":"2@xnpZ6B8Rsqhk/0Rizzwy1vuShi5BRA6KB57lRKm2Xze62a6xOHYlGErvgfqdqqb4UMzkL8z8y6qfwODOYJvamZwA3X8TuOqmVSI=,dXgdirXQQvPxcto+FEKbVX7PrgwvotV5mbW26mDkR1g=,O2iNab70ZqhIl6OzXeJ0pMGb10XM7En2gCjgIDuOqlg=,WG/UVOK5f9V2Z9LuZH/Sb0zgYPV89ezo965wTx/T+AQ="}
+2025-05-12T23:53:58.438Z [INFO]: [arifdm] Connection update: {"qr":"2@3YHH3k/RpUJlTP3tQWxTgn9shglNtyaanu66SpbKSN50E4sxzNMlmycOvn0prtNqIozYfebHnmy1eBKwEZwdF7feS5POwiSoC10=,dXgdirXQQvPxcto+FEKbVX7PrgwvotV5mbW26mDkR1g=,O2iNab70ZqhIl6OzXeJ0pMGb10XM7En2gCjgIDuOqlg=,WG/UVOK5f9V2Z9LuZH/Sb0zgYPV89ezo965wTx/T+AQ="}
+2025-05-12T23:54:18.443Z [INFO]: [arifdm] Connection update: {"qr":"2@0iBDh8ruRvAtnwOGyfdKphPchqkz1/K/OBf4KbWY/7U8W3f851kV+J0MivnjMYhezpBNFq2+rEJNUzf8mV190xQtY283hnJVPYw=,dXgdirXQQvPxcto+FEKbVX7PrgwvotV5mbW26mDkR1g=,O2iNab70ZqhIl6OzXeJ0pMGb10XM7En2gCjgIDuOqlg=,WG/UVOK5f9V2Z9LuZH/Sb0zgYPV89ezo965wTx/T+AQ="}
+2025-05-12T23:54:38.448Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"error":{"data":null,"isBoom":true,"isServer":false,"output":{"statusCode":408,"payload":{"statusCode":408,"error":"Request Time-out","message":"QR refs attempts ended"},"headers":{}}},"date":"2025-05-12T23:54:38.448Z"}}
+2025-05-12T23:54:38.449Z [INFO]: [arifdm] Connection update: close
+2025-05-12T23:54:38.450Z [INFO]: [arifdm] Disconnected, reason: timedOut
+2025-05-12T23:54:38.450Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:54:43.452Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:54:43.575Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:54:43.575Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:54:45.046Z [INFO]: [arifdm] Connection update: {"qr":"2@D+cMJAaJc7zTjV/Bw3dcAYs+QgrXB+V1j/DTflCuTtivElJlMNgmd2c09TqnpLCOjVCWo3GPRqZa/owsXgUo9e0L1VnY40SCREg=,x6Al2i/mXDHuN956zVFTn+SVZjttmdtI3JLyzmr+SCg=,ew39nPm3zLBxxiqfa5Xrztk/jgf45xZWfCMAuw70tlU=,Qq7zG8GWv5InRI+Nv/9i/G204nNtFV4TE2kBK4rRrmU="}
+2025-05-12T23:55:45.053Z [INFO]: [arifdm] Connection update: {"qr":"2@7tyW/IwS7NN7vCCuGoiBRdlityUk39rDUJTVloDIe4uZnYKHcDX2TZtWL8z4JSEy5PQLK8H49XIbcm+JsE4kIl0/UAzFKMiKnAM=,x6Al2i/mXDHuN956zVFTn+SVZjttmdtI3JLyzmr+SCg=,ew39nPm3zLBxxiqfa5Xrztk/jgf45xZWfCMAuw70tlU=,Qq7zG8GWv5InRI+Nv/9i/G204nNtFV4TE2kBK4rRrmU="}
+2025-05-12T23:56:05.054Z [INFO]: [arifdm] Connection update: {"qr":"2@5Sa+b0DzzLQ8GZxbbTenn9SdljAAhfDb1/2RdxGWl4XD6mfxx1LopFv4vveCI07Fc+6i7xVaYV/vzfJUevhH3MfAWVZglkJPAhE=,x6Al2i/mXDHuN956zVFTn+SVZjttmdtI3JLyzmr+SCg=,ew39nPm3zLBxxiqfa5Xrztk/jgf45xZWfCMAuw70tlU=,Qq7zG8GWv5InRI+Nv/9i/G204nNtFV4TE2kBK4rRrmU="}
+2025-05-12T23:56:25.057Z [INFO]: [arifdm] Connection update: {"qr":"2@YIXcjelUNX2fLVjUBZi/ooRcS097J4y67fqqnSzLhRlCYTpHBASULKuw3Ad8VTrlC56KzpoHqrsyotsP4ALW4o1vSEfh+De8CtQ=,x6Al2i/mXDHuN956zVFTn+SVZjttmdtI3JLyzmr+SCg=,ew39nPm3zLBxxiqfa5Xrztk/jgf45xZWfCMAuw70tlU=,Qq7zG8GWv5InRI+Nv/9i/G204nNtFV4TE2kBK4rRrmU="}
+2025-05-12T23:56:45.062Z [INFO]: [arifdm] Connection update: {"qr":"2@If3yJdWPHp714eiFmkNUBnOmARMsDnsURiysADYe+4pR9UzrhLMOMr+onZohVw1MNL1zfzXFZJsfi6Ofst0gbUezksPlrwCPLmw=,x6Al2i/mXDHuN956zVFTn+SVZjttmdtI3JLyzmr+SCg=,ew39nPm3zLBxxiqfa5Xrztk/jgf45xZWfCMAuw70tlU=,Qq7zG8GWv5InRI+Nv/9i/G204nNtFV4TE2kBK4rRrmU="}
+2025-05-12T23:57:05.067Z [INFO]: [arifdm] Connection update: {"qr":"2@qcDPRHyXlHebfxbMZcn1z8hfgAJ6jZgk7v8+FaBysQ89eRdtlPy2QLxRVdREfQl6g8BvMYmztaozq3q3J2kBjdN4x/z1j30l+Xw=,x6Al2i/mXDHuN956zVFTn+SVZjttmdtI3JLyzmr+SCg=,ew39nPm3zLBxxiqfa5Xrztk/jgf45xZWfCMAuw70tlU=,Qq7zG8GWv5InRI+Nv/9i/G204nNtFV4TE2kBK4rRrmU="}
+2025-05-12T23:57:25.074Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"error":{"data":null,"isBoom":true,"isServer":false,"output":{"statusCode":408,"payload":{"statusCode":408,"error":"Request Time-out","message":"QR refs attempts ended"},"headers":{}}},"date":"2025-05-12T23:57:25.073Z"}}
+2025-05-12T23:57:25.074Z [INFO]: [arifdm] Connection update: close
+2025-05-12T23:57:25.074Z [INFO]: [arifdm] Disconnected, reason: timedOut
+2025-05-12T23:57:25.074Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:57:30.076Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:57:30.338Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:57:30.338Z [INFO]: [arifdm] Connection update: connecting
+2025-05-12T23:57:31.223Z [INFO]: [arifdm] Connection update: {"qr":"2@10FRWCPz+ItaSDIoGwZ1sAD3N+Hxd3ok/0GX3lnWRmrqZlsvG6GR9V5VQSGo5bd5ix/A4uScnl6o6gWeiLj4aBTN9HmSzGmUp40=,ybqNwVBwiEURbXFwOqyaq/fHIfHui78vn3n1zTA7Qhk=,hTKtRwquLBvLUBbfL/L6uA3uzoR4sNsDTLuf4gXiZVg=,RtVwWmF4P4Y8+/opcI0NUlASG/AUrtsJUy58FbySac4="}
+2025-05-12T23:57:55.020Z [INFO]: WhatsApp Server running on port 5001
+2025-05-12T23:57:56.278Z [INFO]: Client connected:
+2025-05-12T23:58:08.496Z [INFO]: Client connected:
+2025-05-12T23:58:27.912Z [INFO]: Client disconnected:
+2025-05-12T23:58:27.979Z [INFO]: Client connected:
+2025-05-12T23:58:29.449Z [INFO]: Client connected:
+2025-05-12T23:58:34.965Z [INFO]: Received start_session for: arifdm
+2025-05-12T23:58:34.968Z [INFO]: [arifdm] Initializing new session...
+2025-05-12T23:58:34.975Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:58:35.295Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:58:36.365Z [INFO]: [arifdm] Connection update: {"qr":"2@VapjW78IGjN27BuRpdAOWl0y+zK2aHKOQwfAGIyMEVttQESMuPZKAT5W7ggnTTkmSNojYdC+VLe312jV7wrh/jStyYvdFn3Rwc8=,3QMDdLFLvEixf8IISDTGdgRFPuMmCgdc3r25pCzSd0w=,MWlcC7NeU53Ru9V4HErp3t6oIX33YNpsj5r+GfnLc18=,nYvkHWCRrdqin8r7SdspJLglW5NBlZk6f44jPn/0T2c="}
+2025-05-12T23:58:40.074Z [INFO]: Client disconnected:
+2025-05-12T23:58:40.104Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"date":"2025-05-12T23:58:40.104Z"}}
+2025-05-12T23:58:40.107Z [INFO]: [arifdm] Disconnected, reason: undefined
+2025-05-12T23:58:40.120Z [INFO]: [arifdm] Reconnecting...
+2025-05-12T23:58:40.450Z [INFO]: Client connected:
+2025-05-12T23:58:42.751Z [INFO]: Client connected:
+2025-05-12T23:58:45.128Z [INFO]: [arifdm] Initializing session
+2025-05-12T23:58:45.236Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-12T23:58:46.340Z [INFO]: [arifdm] Connection update: {"qr":"2@D+2vYYa8AhkR66AKzipY6cyTurG5wn5zGUcykcCVYscMA8Klx8a9peN3Ev6oOmkG/1KvsKQ0w2Go8HqMWvXrkPf/FeHT+Z6zcVg=,QyMido7VLUEJvojf3UHBUGJNFXT3lYr5TD3NrrSi6x4=,Z2WjLxAtJawQFX7+kAg41FtXfauN3i/QPUVo8nh4nh4=,Y+GGhkQk2TpVtyMkcgD7oi1+HjLWSIg+XHpnz3VDgN0="}
+2025-05-12T23:58:48.057Z [INFO]: Received start_session for: arifdm
+2025-05-12T23:58:48.057Z [INFO]: [arifdm] Session already exists
+2025-05-12T23:59:05.573Z [INFO]: Client disconnected:
+2025-05-12T23:59:07.065Z [INFO]: Client connected:
+2025-05-12T23:59:20.238Z [INFO]: Received start_session for: arifdm
+2025-05-12T23:59:20.238Z [INFO]: [arifdm] Session already exists
+2025-05-12T23:59:46.345Z [INFO]: [arifdm] Connection update: {"qr":"2@WeA9PduHltjx9/81t3tFTXD3ReVYIam71hi0nnxM5feoIj8mn2+KazuWvu+TmyhGOF1UZiHjXMDFZDMOzFOAvb1mzsBu3Wr5Uuc=,QyMido7VLUEJvojf3UHBUGJNFXT3lYr5TD3NrrSi6x4=,Z2WjLxAtJawQFX7+kAg41FtXfauN3i/QPUVo8nh4nh4=,Y+GGhkQk2TpVtyMkcgD7oi1+HjLWSIg+XHpnz3VDgN0="}
+2025-05-13T00:00:06.351Z [INFO]: [arifdm] Connection update: {"qr":"2@FwPOOJy2qcFo5uL94ksoW/RLmzG0ZX0jxLoXHEOk2ja+PoLV3xBZbocK5S9wf0t2SdtHOjMXHL/HrgkhE8Kw/b6vPrHtBiZqawQ=,QyMido7VLUEJvojf3UHBUGJNFXT3lYr5TD3NrrSi6x4=,Z2WjLxAtJawQFX7+kAg41FtXfauN3i/QPUVo8nh4nh4=,Y+GGhkQk2TpVtyMkcgD7oi1+HjLWSIg+XHpnz3VDgN0="}
+2025-05-13T00:00:13.616Z [INFO]: Received start_session for: arifdm
+2025-05-13T00:00:13.616Z [INFO]: [arifdm] Session already exists
+2025-05-13T00:00:26.354Z [INFO]: [arifdm] Connection update: {"qr":"2@z0tQM1iJegJ4i4z9kLB2vSkLezXHbkE/UMNSRv9xzplW8a8evnsBGe5KA/kDXHXlFMclpl33rLJXQlXfMdPB8JYl4ti6iMbJDDo=,QyMido7VLUEJvojf3UHBUGJNFXT3lYr5TD3NrrSi6x4=,Z2WjLxAtJawQFX7+kAg41FtXfauN3i/QPUVo8nh4nh4=,Y+GGhkQk2TpVtyMkcgD7oi1+HjLWSIg+XHpnz3VDgN0="}
+2025-05-13T00:00:49.455Z [INFO]: WhatsApp Server running on port 5001
+2025-05-13T00:00:49.568Z [INFO]: Client connected:
+2025-05-13T00:00:49.732Z [INFO]: Client connected:
+2025-05-13T00:00:52.131Z [INFO]: Client connected:
+2025-05-13T00:00:53.931Z [INFO]: Client connected:
+2025-05-13T00:01:15.057Z [INFO]: Client disconnected:
+2025-05-13T00:01:16.584Z [INFO]: Client connected:
+2025-05-13T00:01:29.587Z [INFO]: Received start_session for: arifdm
+2025-05-13T00:01:29.589Z [INFO]: [arifdm] Initializing new session...
+2025-05-13T00:01:29.590Z [INFO]: [arifdm] Initializing session
+2025-05-13T00:01:30.037Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-13T00:01:30.037Z [INFO]: [arifdm] Connection update: connecting
+2025-05-13T00:01:30.921Z [INFO]: [arifdm] Connection update: {"qr":"2@QrIrGFp+t6eUdi0gTgHTkt31E9eav0U31VXZnB4fh72p8G3YqCGOqaKT9rzNP8cdXojy02Z6zE0lKGzdpqqaeAss/bYcQfVch3w=,TNLQeerx+eJbZ24HYGGWaUfpjZDkpZOPMKm+GlVDSyk=,vw8tVwr9tQ860r8ZBwdQa4JLcBQWjyiWuDlXD4JPxFU=,mpcwCW6+XSaYrErlQzII7ZjRCZua5QXpBX8NHXOQYx8="}
+2025-05-13T00:01:42.246Z [INFO]: [arifdm] Connection update: {"isNewLogin":true}
+2025-05-13T00:01:42.576Z [INFO]: [arifdm] Connection update: {"connection":"close","lastDisconnect":{"error":{"data":{"tag":"stream:error","attrs":{"code":"515"}},"isBoom":true,"isServer":true,"output":{"statusCode":515,"payload":{"statusCode":515,"error":"Unknown","message":"Stream Errored (restart required)"},"headers":{}}},"date":"2025-05-13T00:01:42.576Z"}}
+2025-05-13T00:01:42.576Z [INFO]: [arifdm] Connection update: close
+2025-05-13T00:01:42.577Z [INFO]: [arifdm] Disconnected, reason: restartRequired
+2025-05-13T00:01:42.577Z [INFO]: [arifdm] Reconnecting...
+2025-05-13T00:01:47.582Z [INFO]: [arifdm] Initializing session
+2025-05-13T00:01:47.669Z [INFO]: [arifdm] Connection update: {"connection":"connecting","receivedPendingNotifications":false}
+2025-05-13T00:01:47.669Z [INFO]: [arifdm] Connection update: connecting
+2025-05-13T00:01:48.748Z [INFO]: [arifdm] Connection update: {"receivedPendingNotifications":true}
+2025-05-13T00:01:49.409Z [INFO]: [arifdm] Connection update: {"connection":"open"}
+2025-05-13T00:01:49.409Z [INFO]: [arifdm] Connection update: open
+2025-05-13T00:01:49.410Z [INFO]: [arifdm] Connected to WhatsApp
+2025-05-13T00:01:54.264Z [INFO]: [arifdm] Message from 6282142000908@s.whatsapp.net: 
+2025-05-13T00:02:20.642Z [INFO]: [arifdm] Message from 6282142000908@s.whatsapp.net: 
+2025-05-13T00:02:33.189Z [INFO]: [arifdm] Message from 6281227229012@s.whatsapp.net: Halo, ini pesan dari REST API
+2025-05-13T00:02:38.518Z [INFO]: [arifdm] Message from 6282142000908@s.whatsapp.net: 
+2025-05-13T00:02:50.576Z [INFO]: [arifdm] Message from 6282142000908@s.whatsapp.net: 
+2025-05-13T00:04:19.113Z [INFO]: [arifdm] Message from 6281227229012@s.whatsapp.net: Kirim Pesan WhatsApp
